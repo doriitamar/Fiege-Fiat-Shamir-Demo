@@ -66,7 +66,7 @@ export default {
     login() {
       // Send proof
       const r = mathjs.randomInt(this.n);
-      const x = mathjs.mod(r * r, this.n);
+      const x = mathjs.mod(Math.pow(r,2), this.n);
 
       axios.post('http://localhost:3000/proof', {username: this.username, x}).then(({data: a}) => {
        // Verification

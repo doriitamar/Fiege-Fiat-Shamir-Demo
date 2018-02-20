@@ -2,13 +2,14 @@ var express = require('express');
 var config = require('../config');
 var mathjs = require('mathjs');
 var router = express.Router();
-const n = config.FIRST_PRIME * config.SECOND_PRIME
+const n = config.FIRST_PRIME * config.SECOND_PRIME;
+const k = 4;
 let users = {};
 
 
 router.get('/props', function(req, res, next) {
   res.json({
-    k: 6,
+    k,
     n 
   });
 });
@@ -23,7 +24,7 @@ router.post('/register', function(req, res, next) {
 router.post('/proof', function(req, res, next) {
   let vector = [];
 
-  for(let i = 0; i<6; i++) {
+  for(let i = 0; i<k; i++) {
     vector.push(Math.random() > 0.5 ? 1 : 0);
   }
   users[req.body.username].a = vector;
@@ -42,9 +43,9 @@ router.post('/verify', function(req, res, next) {
     console.log("el:"+el+" a:"+a[index]);
     y = y *  Math.pow(el, a[index]);
   })
-
+  console.log("y:"+y);
   y = mathjs.mod(y, n);
-  let ySq = mathjs.mod(req.body.y * req.body.y, n)
+  let ySq = mathjs.mod(Math.pow(req.body.y, 2), n)
   console.log(publicKey);
   console.log("y:"+y);
   console.log("req:"+ySq);
